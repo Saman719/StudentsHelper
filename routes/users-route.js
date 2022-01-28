@@ -6,14 +6,6 @@ const JWT_SECRET = 'dgsfagdaiushf#$@#ausdfh9123**$$$$#sd23r23#$as56d%dA%S6s5a6d'
 
 const router = express.Router()
 
-
-router.get('/:id', async(req, res) => {
-    const user = await User.findById(req.params['id']);
-    console.log(user);
-    res.send(user)
-})
-
-
 router.post('/change-password', async(req, res) => {
     const { token, newpassword } = req.body
     try {
@@ -65,10 +57,10 @@ router.get('/register', (req, res) => {
 })
 router.post('/register', async(req, res) => {
     const { name, familyName, username, password: plainTextPassword } = req.body;
-
+    console.log(plainTextPassword);
     try {
         if (plainTextPassword.length < 5) {
-            throw err;
+            throw { error: 'length should not be < 5' };
         }
         const password = await bcrypt.hash(plainTextPassword, 10);
         const response = await User.create({
@@ -83,6 +75,13 @@ router.post('/register', async(req, res) => {
         console.log(error);
         return res.status(400).json({ status: 'error' })
     }
+})
+
+
+router.get('/:id', async(req, res) => {
+    const user = await User.findById(req.params['id']);
+    console.log(user);
+    res.send(user)
 })
 
 module.exports = router

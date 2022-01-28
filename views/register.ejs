@@ -54,11 +54,11 @@
                         <label for="family-name">Family Name</label>
                         <input autocomplete="off" type="text" class="form-control" id="family-name" placeholder="Ex. Goudarzi" required>
                         <br>
-                        <label for="username">Telegram ID</label>
-                        <input autocomplete="off" type="text" class="form-control" id="username" placeholder="Ex. YourID" required>
+                        <label for="username-reg">Telegram ID</label>
+                        <input autocomplete="off" type="text" class="form-control" id="username-reg" placeholder="Ex. YourID" required>
                         <br>
-                        <label for="password">Password</label>
-                        <input autocomplete="off" type="password" class="form-control" id="password" placeholder="Ex. A123@paswod" required>
+                        <label for="password-reg">Password</label>
+                        <input autocomplete="off" type="password" class="form-control" id="password-reg" placeholder="Ex. A123@paswod" required>
                     </div>
                 </div>
                 <div class="row">
@@ -74,15 +74,15 @@
         </div>
         </div>
         <script>
-            const form = document.getElementById('reg-form')
-            form.addEventListener('submit', registerUser)
+            const regForm = document.getElementById('reg-form')
+            regForm.addEventListener('submit', registerUser)
 
             async function registerUser(event) {
                 event.preventDefault();
                 const name = document.getElementById('name').value;
                 const familyName = document.getElementById('family-name').value;
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
+                const username = document.getElementById('username-reg').value;
+                const password = document.getElementById('password-reg').value;
 
                 const result = await fetch('/user/register', {
                     method: 'POST',
@@ -96,7 +96,11 @@
                         password
                     })
                 }).then((res) => res.json())
-                console.log(result);
+                if (result.status === 'ok') {
+                    alert('You have been registered successfully')
+                } else {
+                    alert('Something went wrong')
+                }
                 history.back();
             }
         </script>
