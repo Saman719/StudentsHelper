@@ -9,7 +9,7 @@ const router = express.Router()
 
 router.get('/', async(req, res) => {
     const allAvailableProjects = await Project.find({ status: 'active' })
-    console.log(allAvailableProjects.length)
+    console.log(allAvailableProjects)
     res.render('projects.ejs', { allAvailableProjects })
 })
 

@@ -6,6 +6,14 @@ const JWT_SECRET = 'dgsfagdaiushf#$@#ausdfh9123**$$$$#sd23r23#$as56d%dA%S6s5a6d'
 
 const router = express.Router()
 
+
+router.get('/:id', async(req, res) => {
+    const user = await User.findById(req.params['id']);
+    console.log(user);
+    res.send(user)
+})
+
+
 router.post('/change-password', async(req, res) => {
     const { token, newpassword } = req.body
     try {
@@ -27,25 +35,26 @@ router.post('/change-password', async(req, res) => {
 router.post('/login', async(req, res) => {
     const { username, password } = req.body
 
-    const user = await User.findOne({ username }).lean();
+    try {
+        const user = await User.findOne({ username }).lean();
 
-    if (!user) {
-        return res.json({ status: 'user not found' })
+        if (!user) {
+            return res.json({ status: 'user not found' })
+        }
+
+        if (await bcrypt.compare(password, user.password)) {
+            //user pass is OK
+            const token = jwt.sign({
+                id: user._id,
+                username: user.username,
+            }, JWT_SECRET)
+
+            return res.json({ status: 'ok', data: token })
+        }
+    } catch (error) {
+        res.json({ status: 'error', data: 'Invalid username/password' })
+
     }
-
-    if (await bcrypt.compare(password, user.password)) {
-        //user pass is OK
-        const token = jwt.sign({
-            id: user._id,
-            username: user.username,
-        }, JWT_SECRET)
-
-        return res.json({ status: 'ok', data: token })
-    }
-
-    res.json({ status: 'error', data: 'Invalid username/password' })
-
-
 })
 
 
@@ -56,9 +65,12 @@ router.get('/register', (req, res) => {
 })
 router.post('/register', async(req, res) => {
     const { name, familyName, username, password: plainTextPassword } = req.body;
-    const password = await bcrypt.hash(plainTextPassword, 10);
 
     try {
+        if (plainTextPassword.length < 5) {
+            throw err;
+        }
+        const password = await bcrypt.hash(plainTextPassword, 10);
         const response = await User.create({
             name,
             familyName,

@@ -124,43 +124,42 @@
 
 
 <body>
-    <div class="main-container">
-        <div class="heading">
-            <h1 class="heading__title">Projects Available</h1>
-            <div class="cards" id="cards">
-                <div class="card">
-                    <h2 class="card__title">Requestor :</h2>
-                    <h2 class="card__title">price :</h2>
-                    <h2 class="card__title">description :</h2>
-                    <br>
-                    <br>
-                    <p class="card__apply">
-                        <a class="card__link" href="#">Apply Now <i class="fa fa-arrow-right"></i></a>
-                    </p>
+    <%- include('./header.ejs') %>
+        <div class="main-container">
+            <div class="heading">
+                <h1 class="heading__title">Projects Available</h1>
+                <div class="cards" id="cards">
                 </div>
             </div>
-        </div>
-        <script type="text/javascript">
-            const data = <%- JSON.stringify(allAvailableProjects) %>
-            console.log(data);
-            const cards = document.getElementById('cards')
-            console.log(cards.innerHTML);
-            data.forEach(element => {
-                cards.innerHTML += `
-                
+            <script type="text/javascript">
+                let name, lastName, username;
+                const data = <%- JSON.stringify(allAvailableProjects) %>
+                console.log(data);
+                const cards = document.getElementById('cards')
+                data.forEach(async(element) => {
+                    const user = await fetch(`/user/${element.creator}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    }).then((res) => res.json())
+                    cards.innerHTML += `
+
                 <div class="card">
-                        <h2 class="card__title">Requestor :</h2>
-                        <h2 class="card__title">price :</h2>
-                        <h2 class="card__title">description :</h2>
+                        <h2 class="card__title"><p style="color : black">Requestor :</p> ${user.name + " " +user.familyName}</h2>
+                        <h2 class="card__title"><p style="color : black">Course Name :</p> ${element.courseName}</h2>
+                        <h2 class="card__title"><p style="color : black">Filed Of Study :</p> ${element.fieldOfStudy}</h2>
+                        <h2 class="card__title"><p style="color : black">Price(Toman) :</p> ${element.price}</h2>
+                        <h2 class="card__title"><p style="color : black">Description :</p> ${element.description}</h2>
                         <br>
                         <br>
                         <p class="card__apply">
-                            <a class="card__link" href="#">Apply Now <i class="fa fa-arrow-right"></i></a>
+                            <a class="card__link" href="https:www.t.me/${user.username}">Apply Now <i class="fa fa-arrow-right"></i></a>
                         </p>
                     </div>
                 `
-            });
-        </script>
+                });
+            </script>
 </body>
 
 </html>

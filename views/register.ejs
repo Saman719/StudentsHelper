@@ -41,64 +41,65 @@
 </head>
 
 <body>
-    <div class="container">
-        <form id="reg-form" class="login">
+    <%- include('./header.ejs') %>
+        <div class="container">
+            <form id="reg-form" class="login">
 
-            <div class="row">
-                <h2>Register</h2>
-                <div class="col-md-12">
-                    <label for="name">Name</label>
-                    <input autocomplete="off" type="text" class="form-control" id="name" placeholder="Ex. Saman" required>
-                    <br>
-                    <label for="family-name">Family Name</label>
-                    <input autocomplete="off" type="text" class="form-control" id="family-name" placeholder="Ex. Goudarzi" required>
-                    <br>
-                    <label for="username">Telegram ID</label>
-                    <input autocomplete="off" type="text" class="form-control" id="username" placeholder="Ex. YourID" required>
-                    <br>
-                    <label for="password">Password</label>
-                    <input autocomplete="off" type="password" class="form-control" id="password" placeholder="Ex. A123@paswod" required>
+                <div class="row">
+                    <h2>Register</h2>
+                    <div class="col-md-12">
+                        <label for="name">Name</label>
+                        <input autocomplete="off" type="text" class="form-control" id="name" placeholder="Ex. Saman" required>
+                        <br>
+                        <label for="family-name">Family Name</label>
+                        <input autocomplete="off" type="text" class="form-control" id="family-name" placeholder="Ex. Goudarzi" required>
+                        <br>
+                        <label for="username">Telegram ID</label>
+                        <input autocomplete="off" type="text" class="form-control" id="username" placeholder="Ex. YourID" required>
+                        <br>
+                        <label for="password">Password</label>
+                        <input autocomplete="off" type="password" class="form-control" id="password" placeholder="Ex. A123@paswod" required>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="reset" id="reset" value="Reset" class="btn btn-outline-primary btn-form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="reset" id="reset" value="Reset" class="btn btn-outline-primary btn-form">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="submit" id="register" value="Signup" class="btn btn-outline-success btn-form">
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <input type="submit" id="register" value="Signup" class="btn btn-outline-success btn-form">
-                </div>
-            </div>
-        </form>
-    </div>
-    </div>
-    </div>
-    <script>
-        const form = document.getElementById('reg-form')
-        form.addEventListener('submit', registerUser)
+            </form>
+        </div>
+        </div>
+        </div>
+        <script>
+            const form = document.getElementById('reg-form')
+            form.addEventListener('submit', registerUser)
 
-        async function registerUser(event) {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const familyName = document.getElementById('family-name').value;
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            async function registerUser(event) {
+                event.preventDefault();
+                const name = document.getElementById('name').value;
+                const familyName = document.getElementById('family-name').value;
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
 
-            const result = await fetch('/user/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name,
-                    familyName,
-                    username,
-                    password
-                })
-            }).then((res) => res.json())
-            console.log(result);
-            history.back();
-        }
-    </script>
+                const result = await fetch('/user/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        familyName,
+                        username,
+                        password
+                    })
+                }).then((res) => res.json())
+                console.log(result);
+                history.back();
+            }
+        </script>
 </body>
 
 </html>
