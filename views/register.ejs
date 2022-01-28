@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            background-color: #eee!important;
+        }
+        
+        .login {
+            background-color: #fff;
+            width: 50%;
+            margin: 80px auto;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid #009688;
+            box-shadow: 0px 0px 0px 0px #3f51b5;
+        }
+        
+        @media screen and (max-width: 900px) {
+            .login {
+                width: 80%;
+            }
+        }
+        
+        .login>.row>h2 {
+            margin: auto;
+        }
+        
+        .btn-form {
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <form id="reg-form" class="login">
+
+            <div class="row">
+                <h2>Register</h2>
+                <div class="col-md-12">
+                    <label for="name">Name</label>
+                    <input autocomplete="off" type="text" class="form-control" id="name" placeholder="Ex. Saman" required>
+                    <br>
+                    <label for="family-name">Family Name</label>
+                    <input autocomplete="off" type="text" class="form-control" id="family-name" placeholder="Ex. Goudarzi" required>
+                    <br>
+                    <label for="username">Telegram ID</label>
+                    <input autocomplete="off" type="text" class="form-control" id="username" placeholder="Ex. YourID" required>
+                    <br>
+                    <label for="password">Password</label>
+                    <input autocomplete="off" type="password" class="form-control" id="password" placeholder="Ex. A123@paswod" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="reset" id="reset" value="Reset" class="btn btn-outline-primary btn-form">
+                </div>
+                <div class="col-md-6">
+                    <input type="submit" id="register" value="Signup" class="btn btn-outline-success btn-form">
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    </div>
+    <script>
+        const form = document.getElementById('reg-form')
+        form.addEventListener('submit', registerUser)
+
+        async function registerUser(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const familyName = document.getElementById('family-name').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const result = await fetch('/user/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    familyName,
+                    username,
+                    password
+                })
+            }).then((res) => res.json())
+            console.log(result);
+            history.back();
+        }
+    </script>
+</body>
+
+</html>
