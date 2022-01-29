@@ -13,6 +13,10 @@ router.get('/', async(req, res) => {
     res.render('projects.ejs', { allAvailableProjects })
 })
 
+router.get('/my', async(req, res) => {
+    res.render('my-projects.ejs')
+})
+
 router.get('/all', async(req, res) => {
     const allAvailableProjects = await Project.find({ status: 'active' })
     res.send(allAvailableProjects);
@@ -35,12 +39,37 @@ router.post('/create', async(req, res) => {
             price: Number(price),
             creator: (await foundUser)._id
         })
-        await User.updateOne({ username: _username }, { $push: { projects_placed: response._id } })
+        await User.updateOne({ username: _username }, { $push: { projectsPlaced: response._id } })
         console.log('Project Created Successfully' + response);
         res.json({ status: 'ok' })
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'Dont try to attack me :)' })
+    }
+})
+
+router.get('/:id', async(req, res) => {
+    try {
+        const project = await Project.findById(req.params['id']);
+        if (project.status === 'deactive') {
+            throw { err: 'its deactive' };
+        }
+        res.send(project)
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+router.put('/:id', async(req, res) => {
+    try {
+        const project = await Project.findById(req.params['id']);
+        project.status = 'deactive';
+        await project.save();
+        console.log(project);
+        res.send(project)
+    } catch (err) {
+        console.log(err.message);
+        res.json({ "status": "error" })
     }
 })
 

@@ -137,6 +137,7 @@
                 console.log(data);
                 const cards = document.getElementById('cards')
                 data.forEach(async(element) => {
+                    console.log(element.creator);
                     const user = await fetch(`/user/${element.creator}`, {
                         method: 'GET',
                         headers: {

@@ -31,6 +31,6 @@ app.get('/login', (req, res) => {
     res.render('login.ejs')
 })
 
-app.listen(3000, () => {
+module.exports = app.listen(3000, () => {
     console.log('Server up at 3000');
 })

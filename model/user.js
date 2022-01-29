@@ -5,7 +5,7 @@ const UserSchema = mongoose.Schema({
     familyName: { type: String, required: true },
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    projects_placed: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProjectSchema' }],
+    projectsPlaced: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProjectSchema' }],
 }, { collection: 'users' }, { timestamps: true })
 
 const UserModel = mongoose.model('UserSchema', UserSchema)

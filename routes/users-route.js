@@ -42,6 +42,8 @@ router.post('/login', async(req, res) => {
             }, JWT_SECRET)
 
             return res.json({ status: 'ok', data: token })
+        } else {
+            res.json({ status: 'error', data: 'Invalid username/password' })
         }
     } catch (error) {
         res.json({ status: 'error', data: 'Invalid username/password' })
@@ -73,15 +75,31 @@ router.post('/register', async(req, res) => {
         return res.json({ status: 'ok' })
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ status: 'error' })
+        return res.status(400).json(error)
     }
 })
 
 
 router.get('/:id', async(req, res) => {
-    const user = await User.findById(req.params['id']);
-    console.log(user);
-    res.send(user)
+    try {
+        console.log(req.params['id']);
+        const user = await User.findById(req.params['id']);
+        console.log(user);
+        res.send(user)
+    } catch (err) {
+        return res.status(404);
+    }
+    return res.status(200);
+})
+
+router.get('/username/:username', async(req, res) => {
+    try {
+        user = await User.findOne({ username: req.params['username'] });
+        console.log(user);
+        res.send(user)
+    } catch (err) {
+        console.log(err.message);
+    }
 })
 
 module.exports = router

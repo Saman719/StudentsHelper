@@ -126,8 +126,7 @@
 
     <div class="topnav">
         <a class="active" href="/">Home</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="/project/my" id="my-projects">My Projects</a>
         <div class="login-container" id="before-login">
             <form id="login-form">
                 <input type="text" placeholder="Username" id="username">
@@ -148,13 +147,15 @@
 
     <script>
         const token = localStorage.token;
+        document.getElementById('my-projects').style.display = 'none'
         if (token) {
             const hashedData = token.split(".");
             console.log(hashedData[1]);
             const name = JSON.parse(atob((hashedData[1])))['username']
             document.getElementById('before-login').style.display = 'none'
             document.getElementById('after-login').style.display = 'block'
-            document.getElementById('username-name').innerHTML = `Welcome ${name} <br>(Click to logout)</br>`
+            document.getElementById('my-projects').style.display = 'block'
+            document.getElementById('username-name').innerHTML = `Welcome ${name}<small> (Click to logout)</small>`
         }
     </script>
 
@@ -186,7 +187,8 @@
                 const name = JSON.parse(atob((hashedData[1])))['username']
                 document.getElementById('before-login').style.display = 'none'
                 document.getElementById('after-login').style.display = 'block'
-                document.getElementById('username-name').innerHTML = `Welcome ${name} <br>(Click to logout)</br>`
+                document.getElementById('my-projects').style.display = 'block'
+                document.getElementById('username-name').innerHTML = `Welcome ${name} <small> (Click to logout)</small>`
             } else {
                 document.getElementById('login-btn').style.cssText += `
                     animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
