@@ -69,7 +69,7 @@ router.put('/:id', async(req, res) => {
         res.send(project)
     } catch (err) {
         console.log(err.message);
-        res.json({ "status": "error" })
+        res.json({ "status": "project not found" })
     }
 })
 

@@ -64,7 +64,7 @@ describe('Projects  API', () => {
         return request(app).get('/project/create').expect(200).then((res) => {});
     });
 
-    it('There Is A Problem With Token (maybe under attack ...)', () => {
+    it('There Is A Problem With Token (iaybe under attack ...)', () => {
         return request(app).post('/user/register').send({
             "courseName": "Software",
             "fieldOfStudy": "Computer Engineering",
